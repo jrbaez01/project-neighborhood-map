@@ -94,7 +94,7 @@
 			setTimeout(function() {
 				self._marker.setAnimation(null);
 			}, time);
-		}
+		};
 
 		// Load location info from wikipedia and open a info window
 		self.loadInfoWindow = function() {
@@ -122,7 +122,7 @@
 					'<div class="content">' +
 						'<h2>' + response[1][0] + '</h2>' +
 						'<p>' + response[2][0] + '</p>' +
-						'<a class="button" target="_blank" href="' + response[3][0] + '">Read More on Wikipedia</a>'
+						'<a class="button" target="_blank" href="' + response[3][0] + '">Read More on Wikipedia</a>' +
 					'<div>';
 			})
 			.fail(function(jqXHR) {
@@ -130,7 +130,7 @@
 				self._location.info =
 					'<div class="content">' +
 						'<p>Failed to load this location info data.' +
-						' Status: ' + jqXHR.status + ' - ' + jqXHR.statusText + '</p>'
+						' Status: ' + jqXHR.status + ' - ' + jqXHR.statusText + '</p>' +
 					'</div>';
 			})
 			.always(function() {
@@ -138,7 +138,7 @@
 				_infoWindow.setContent(self._location.info);
 		        _infoWindow.open(map, self._marker);
 			});
-		}
+		};
 
 		// Execute loadInfoWindow on click event
 		self._marker.addListener('click', self.loadInfoWindow);
@@ -161,7 +161,7 @@
 		self.showMarkerInfo = function(marker) {
 			marker.loadInfoWindow();
 			$(_map).click();
-		}
+		};
 	}
 
 	/**
@@ -206,4 +206,4 @@
 
 	// Export init function to use as google map callback
 	window.initMap = init;
-})()
+})();
