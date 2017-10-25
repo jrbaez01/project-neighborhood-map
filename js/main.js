@@ -1,85 +1,88 @@
 (function () {
-	/*
-	 * Google map and info window containers
+
+	/**
+	 * DOM elements
 	 */
-	var _googleMap, _infoWindow;
+	const _burger = document.querySelector('.navbar-burger'),
+		  _menu = document.getElementById(_burger.dataset.target),
+		  _map = document.getElementById('map'),
+		  _markersFilterInput = document.getElementById('markersFilterInput'),
+		  _markersFilterDropdown = document.getElementById('markersFilterDropdown');
 
-	/*
-	 * Get DOM elements
-	 */
-	var _burger = document.querySelector('.navbar-burger');
-	var _menu = document.getElementById(_burger.dataset.target);
-	var _map = document.getElementById('map');
-	var _markersFilterInput = document.getElementById('markersFilterInput');
-	var _markersFilterDropdown = document.getElementById('markersFilterDropdown');
-
-
-	/*
+	/**
 	 * Location Data
 	 */
-	var _sanjuan_city = {lat: 19.47103, lng: -70.676351};
-	var _sanjuan_locations = [
+	const _newyork_city  = {lat: 40.734389, lng: -73.993212};
+	const _newyork_locations = [
 		{
-				name: 'Gran Arena del Cibao',
+				name: 'Lower Manhattan',
 				position: {
-						lat: 19.4653224,
-						lng: -70.7095788
+						lat: 40.712429,
+						lng: -74.007803
 				},
 				info: ''
 		},
 		{
-				name: 'Fortaleza San Luis',
+				name: 'Central Park',
 				position: {
-						lat: 19.4480365,
-						lng: -70.7029076
+						lat: 40.771178,
+						lng: -73.974239
 				},
 				info: ''
 		},
 		{
-				name: 'Monumento de Santiago',
+				name: 'Statue of Liberty National Monument',
 				position: {
-						lat: 19.4509573,
-						lng: -70.694637
+						lat: 40.689247,
+						lng: -74.044471
 				},
 				info: ''
 		},
 		{
-				name: 'Pontificia Universidad Católica Madre y Maestra',
+				name: 'Brooklyn Bridge',
 				position: {
-						lat: 19.4445363,
-						lng: -70.683252
+						lat: 40.706072,
+						lng: -73.996894
 				},
 				info: ''
 		},
 		{
-				name: 'Universidad Tecnológica de Santiago',
+				name: 'Manhattan Bridge',
 				position: {
-						lat: 19.432889,
-						lng: -70.692654
+						lat: 40.707571,
+						lng: -73.990727
 				},
 				info: ''
 		}
 	];
 
-	/*
+	/**
+	 * Google map and info window containers
+	 */
+	let _googleMap, _infoWindow;
+
+	/**
 	 * Marker constructor
 	 */
 	function Marker(location, filter) {
-		var self = this;
+		let self = this;
 
+		// Marker raw location data
 		self._location = location;
 
+		// The actual marker
 		self._marker = new google.maps.Marker({
 			position: location.position,
 			title: location.name,
 			map: _googleMap
 		});
 
+		// True or False, depending if the marker match the filter
 		self._matchMarkersFilter = ko.computed(function() {
-			var isMatch = self._location.name.toLowerCase()
-												.indexOf(
-													filter().toLowerCase()
-												) >= 0;
+			let isMatch = self._location.name.toLowerCase()
+				.indexOf(
+					filter().toLowerCase()
+				) >= 0;
 
 			self._marker.setMap( isMatch ? _googleMap : null );
 			return isMatch;
@@ -95,8 +98,12 @@
 
 		// Load location info from wikipedia and open a info window
 		self.loadInfoWindow = function() {
+			// Center map and animate marker
 			self.bounce();
 			_googleMap.panTo(self._marker.getPosition());
+			_googleMap.setZoom(15);
+
+			// Make ajax request
 			$.ajax( "http://en.wikipedia.org/w/api.php", {
 				dataType: "jsonp", // jsonp request to avoid CORS
 				cache: true, // let the browser cache the response
@@ -111,11 +118,11 @@
 			})
 			.done(function(response) {
 				// If success, format info and store
-				self._location.info = 
+				self._location.info =
 					'<div class="content">' +
-						'<h2>' + response[1] + '</h2>' +
-						'<p>' + response[2] + '</p>' +
-						'<a class="button" target="_blank" href="' + response[3] + '">Read More on Wikipedia</a>'
+						'<h2>' + response[1][0] + '</h2>' +
+						'<p>' + response[2][0] + '</p>' +
+						'<a class="button" target="_blank" href="' + response[3][0] + '">Read More on Wikipedia</a>'
 					'<div>';
 			})
 			.fail(function(jqXHR) {
@@ -137,16 +144,16 @@
 		self._marker.addListener('click', self.loadInfoWindow);
 	}
 
-	/*
+	/**
 	 * Markers VM constructor
 	 */
 	function MarkersViewModel() {
-		var self = this;
+		let self = this;
 		self._markers = ko.observableArray([]);
 		self._markersFilter = ko.observable("");
 
 		// Create markers
-		_sanjuan_locations.forEach(function(loc) {
+		_newyork_locations.forEach(function(loc) {
 			self._markers.push(new Marker(loc, self._markersFilter));
 		});
 
@@ -157,30 +164,30 @@
 		}
 	}
 
-	/*
+	/**
 	 * The drop that spilled the glass.
 	 */
 	function init() {
-		/*
+		/**
 		 * Create Google map
 		 */
 		_googleMap = new google.maps.Map(_map, {
-			center: _sanjuan_city,
-			zoom: 15
+			center: _newyork_city ,
+			zoom: 13
 		});
 
-		/*
+		/**
 		 * Create Google map Info Window
 		 */
 		_infoWindow = new google.maps.InfoWindow();
 
-		/*
+		/**
 		 * Create markers and activates knockout.js
 		 */
 		ko.applyBindings(new MarkersViewModel());
 
-		/*
-		 * Add events, 
+		/**
+		 * Add events,
 		 * Open/close menu when burger is clicked, hide when map is clicked.
 		 */
 		$(_burger).on('click', function() {
