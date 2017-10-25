@@ -37,9 +37,9 @@
                     </p>
                   </a>
                   <!-- List of locations. Some knockout magic here too-->
-                  <div class="navbar-dropdown" data-bind="foreach: _markers">
-                      <a class="navbar-item" data-bind="visible: _matchMarkersFilter, text: _location.name, click: $parent.showMarkerInfo"></a>
-                  </div>
+                  <ul class="navbar-dropdown" data-bind="foreach: _markers">
+                      <li class="navbar-item" data-bind="visible: _matchMarkersFilter"><a data-bind="text: _location.name, click: $parent.showMarkerInfo"></a></li>
+                  </ul>
                 </div>
               </div>
             </div>

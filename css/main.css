@@ -3,3 +3,8 @@
 	position: absolute;
 	z-index: 1;
 }
+
+// Just in case bulma css framework fail to load
+#map {
+	min-height: 640px;
+}
