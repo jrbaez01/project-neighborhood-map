@@ -1,0 +1,42 @@
+[
+	{
+		"name": "Lower Manhattan",
+		"position": {
+			"lat": 40.712429,
+			"lng": -74.007803
+		},
+		"info": ""
+	},
+	{
+		"name": "Central Park",
+		"position": {
+			"lat": 40.771178,
+			"lng": -73.974239
+		},
+		"info": ""
+	},
+	{
+		"name": "Statue of Liberty National Monument",
+		"position": {
+			"lat": 40.689247,
+			"lng": -74.044471
+		},
+		"info": ""
+	},
+	{
+		"name": "Brooklyn Bridge",
+		"position": {
+			"lat": 40.706072,
+			"lng": -73.996894
+		},
+		"info": ""
+	},
+	{
+		"name": "Manhattan Bridge",
+		"position": {
+			"lat": 40.707571,
+			"lng": -73.990727
+		},
+		"info": ""
+	}
+]
