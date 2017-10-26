@@ -6,7 +6,7 @@
     <title>Neighborhood Map</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
 
@@ -18,27 +18,29 @@
               <a class="navbar-item">
                 <h1>New York Neighborhood Map</h1>
               </a>
-              <span class="navbar-burger burger" data-target="navbarMenuHeroC">
+              <!-- Bind click to burger to toggle menu -->
+              <span class="navbar-burger burger" data-bind="click: markersMenuToggle">
                 <span></span>
                 <span></span>
                 <span></span>
               </span>
             </div>
-            <div id="navbarMenuHeroC" class="navbar-menu is-active">
+            <!-- CSS bindig to toggle menu -->
+            <div class="navbar-menu" data-bind="css: {'is-active': markersMenu}">
               <div class="navbar-start">
                 <div id="markersFilterDropdown" class="navbar-item has-dropdown is-hoverable">
                   <!-- Markers firter input -->
                   <a id="markersFilterInput" class="navbar-link">
                     <p class="control has-icons-left">
-                      <input class="input is-small" type="text" data-bind="textInput: _markersFilter, valueUpdate: 'afterkeydown'"placeholder="Filter locations">
+                      <input class="input is-small" type="text" data-bind="textInput: markersFilter, valueUpdate: 'afterkeydown'" placeholder="Filter locations">
                       <span class="icon is-small is-left">
                         <i class="fa fa-filter"></i>
                       </span>
                     </p>
                   </a>
                   <!-- List of locations. Some knockout magic here too-->
-                  <ul class="navbar-dropdown" data-bind="foreach: _markers">
-                      <li class="navbar-item" data-bind="visible: _matchMarkersFilter"><a data-bind="text: _location.name, click: $parent.showMarkerInfo"></a></li>
+                  <ul class="navbar-dropdown" data-bind="foreach: markers">
+                      <li class="navbar-item" data-bind="visible: matchMarkersFilter"><a data-bind="text: location.name, click: $parent.showMarkerInfo"></a></li>
                   </ul>
                 </div>
               </div>
@@ -49,10 +51,9 @@
       <div id="map" class="hero-body"></div>
     </section>
 
-    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2792TxiR7AFj8EnVlmueXbpGmiOCLSK4&libraries=geometry,places&callback=initMap"
-    async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2792TxiR7AFj8EnVlmueXbpGmiOCLSK4&libraries=geometry,places&callback=initMap" onerror="handleErrorLoadingMap()" async defer></script>
   </body>
 </html>

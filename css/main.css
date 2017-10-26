@@ -1,10 +1,10 @@
-// Put navbar over the map
-.navbar .container {
+/*Put navbar over the map*/
+.navbar > .container {
 	position: absolute;
 	z-index: 1;
 }
 
-// Just in case bulma css framework fail to load
+/*Just in case bulma css framework fail to load*/
 #map {
 	min-height: 640px;
 }
